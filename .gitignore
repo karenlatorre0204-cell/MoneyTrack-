@@ -5,6 +5,7 @@ package-lock.json
 # Builds portables y empaquetado
 dist/
 build/
+*.zip
 *.exe
 !MoneyTrack.exe
 !portable/MoneyTrack.exe
