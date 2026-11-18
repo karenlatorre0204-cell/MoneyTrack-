@@ -48,8 +48,9 @@
 * **Filtros de Daltonismo por Matriz SVG:** Modos dedicados para **Protanopía**, **Deuteranopía** y **Tritanopía**.
 * **Ergonomía:** Foco visible de alto contraste, reducción de movimiento y subrayado de hipervínculos.
 
-### 🔒 7. Seguridad y Control de Acceso
-* **Roles de Usuario:** `Admin` (administrador), `Editor` (gestor financiero) y `Lector` (solo consulta).
+### 🔒 7. Seguridad, Registro y Control de Acceso
+* **Registro Directo de Usuarios:** Cualquier usuario puede hacer clic en la pestaña **"Registrarse"**, crear su cuenta y comenzar a utilizar la aplicación al instante.
+* **Rol de Administrador:** Cada usuario registrado asume el rol de Administrador de sus finanzas, con acceso ilimitado a todas las herramientas (CRUD, presupuestos, metas, reportes).
 * **Bloqueo por Fuerza Bruta:** Bloqueo temporal de 15 minutos tras 5 intentos fallidos consecutivos de contraseña.
 * **Protección de Sesión:** Cierre automático por inactividad tras 30 minutos y límite deslizante de 8 horas.
 
@@ -59,18 +60,15 @@
 
 MoneyTrack incluye su propio ejecutable compilado para que el evaluador no deba instalar absolutamente nada:
 
-1. Ubica el archivo **`MoneyTrack.exe`** en la carpeta principal.
+1. Ubica el archivo **`MoneyTrack.exe`** en la carpeta principal (o en la subcarpeta `portable/`).
 2. Haz **doble clic** sobre él.
 3. La aplicación se abrirá al instante en su propia ventana de escritorio.
 
 *(Alternativa: también puedes ejecutar `MoneyTrack.bat` o abrir `public/index.html` en tu navegador favorito e instalarla como PWA).*
 
-### Cuentas de Acceso Preconfiguradas:
-| Usuario | Correo | PIN / Clave | Rol |
-|---|---|---|---|
-| **Administrador** | `admin@moneytrack.com` | `123456` | Admin |
-| **Editor** | `karen@moneytrack.com` | `123456` | Editor |
-| **Lector** | `carlos@moneytrack.com` | `123456` | Lector |
+### Acceso a la Aplicación:
+* **Crear cuenta propia:** Pestaña **"Registrarse"** en la pantalla inicial.
+* **Cuenta de prueba preconfigurada:** Correo `admin@moneytrack.com` | PIN: `123456` *(Rol: Administrador)*
 
 ---
 

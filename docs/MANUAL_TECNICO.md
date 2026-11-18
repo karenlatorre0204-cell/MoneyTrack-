@@ -121,10 +121,9 @@ El almacén gestiona estructuras normalizadas con integridad referencial lógica
 
 ## 5. Seguridad y Roles
 
-* **Roles del Sistema:**
-  * **Admin:** Acceso absoluto a todos los módulos, gestión de usuarios y ajustes globales.
-  * **Editor:** Permiso de creación, modificación y eliminación de ingresos, gastos, presupuestos y metas.
-  * **Lector:** Modo de consulta exclusiva (Dashboard, reportes y lectura de saldos sin capacidad de alteración destructiva).
+* **Modelo de Acceso y Roles:**
+  * **Administrador (Admin):** Cada usuario registrado tiene el rol de Administrador de sus finanzas personales, contando con control total sobre el registro, edición, eliminación de ingresos, gastos, presupuestos, metas de ahorro y configuración.
+  * **Aislamiento por Propietario:** Los datos financieros permanecen aislados de forma segura por usuario.
 * **Control de Inactividad:** Cierre de sesión automático si no se detecta interacción durante **30 minutos**.
 * **Protección contra Fuerza Bruta:** Bloqueo temporal automático de **15 minutos** al acumular **5 intentos fallidos consecutivos**.
 * **Duración Deslizante de Sesión:** Máximo de **8 horas** activas continuas.

@@ -10,18 +10,23 @@
 
 ---
 
-## 2. Acceso al Sistema (Inicio de Sesión)
+## 2. Acceso al Sistema y Registro de Usuarios
 
-Para acceder a tu cuenta:
+### 2.1. Crear una Cuenta Nueva (Registrarse)
+Si es la primera vez que utilizas la aplicación:
+1. En la pantalla inicial, haz clic en la pestaña **"Registrarse"** (o en el enlace *"¿No tienes cuenta? Regístrate aquí"*).
+2. Ingresa tu **Nombre Completo**, tu **Correo Electrónico** y define tu **Contraseña / PIN** (mínimo 6 dígitos).
+3. Confirma tu contraseña y presiona el botón 3D **"Crear mi Cuenta y Empezar"**.
+4. ¡Listo! Se creará tu cuenta como **Administrador** de tus finanzas y entrarás de inmediato al panel de control con todas las funciones desbloqueadas.
+
+### 2.2. Iniciar Sesión (Usuarios Existentes)
 1. Abre la aplicación ejecutando **`MoneyTrack.exe`** en tu computador.
-2. Ingresa tu correo electrónico y tu clave (PIN).
+2. Ingresa tu correo electrónico y tu contraseña.
 3. Haz clic en el botón con relieve 3D **"Iniciar Sesión"**.
 
 > [!TIP]
-> **Cuentas de Demostración Disponibles:**
-> * **Administrador:** `admin@moneytrack.com` | Clave: `123456` *(Control total del sistema)*
-> * **Editor:** `karen@moneytrack.com` | Clave: `123456` *(Registro y edición de finanzas)*
-> * **Lector:** `carlos@moneytrack.com` | Clave: `123456` *(Modo consulta sin modificaciones)*
+> **Cuenta de Demostración Inicial:**
+> * **Administrador:** `admin@moneytrack.com` | Clave: `123456` *(Acceso completo de prueba)*
 
 ---
 
