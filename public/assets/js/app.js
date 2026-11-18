@@ -438,7 +438,7 @@ const App = {
                   <td><strong>${this.escapeHtml(m.name)}</strong></td>
                   <td><span class="badge-3d badge-3d--accent">${m.role.toUpperCase()}</span></td>
                   <td style="color:var(--muted); font-size:0.82rem;">
-                    ${m.role === 'admin' ? 'Control total, gestión de usuarios y ajustes' : (m.role === 'editor' ? 'Registro, edición de movimientos y presupuestos' : 'Solo lectura de saldos y reportes')}
+                    Administrador del hogar con control completo de presupuestos y registros.
                   </td>
                 </tr>
               `).join('')}

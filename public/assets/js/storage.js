@@ -1,7 +1,7 @@
 /**
  * MONEYTRACK · Data & Storage Layer
- * Persistencia estructurada local con soporte multiusuario, roles,
- * presupuestos, metas de ahorro, categorías y grupos familiares.
+ * Persistencia estructurada local con soporte de registro de usuarios,
+ * rol de Administrador, presupuestos, metas de ahorro y categorías.
  * Moneda: Pesos Colombianos (COP).
  */
 
@@ -29,33 +29,13 @@ const Storage = {
     const defaultUsers = [
       {
         id: 'usr_admin',
-        name: 'Administrador Demo',
+        name: 'Karen Suárez',
         email: 'admin@moneytrack.com',
         pin: '123456',
         role: 'admin',
         failedAttempts: 0,
         lockedUntil: null,
         createdAt: '2026-11-01'
-      },
-      {
-        id: 'usr_editor',
-        name: 'Karen Suárez',
-        email: 'karen@moneytrack.com',
-        pin: '123456',
-        role: 'editor',
-        failedAttempts: 0,
-        lockedUntil: null,
-        createdAt: '2026-11-05'
-      },
-      {
-        id: 'usr_lector',
-        name: 'Carlos Lector',
-        email: 'carlos@moneytrack.com',
-        pin: '123456',
-        role: 'lector',
-        failedAttempts: 0,
-        lockedUntil: null,
-        createdAt: '2026-11-10'
       }
     ];
 
@@ -173,9 +153,7 @@ const Storage = {
         name: 'Hogar Suárez & Familia',
         createdBy: 'usr_admin',
         members: [
-          { userId: 'usr_admin', name: 'Administrador Demo', role: 'admin' },
-          { userId: 'usr_editor', name: 'Karen Suárez', role: 'editor' },
-          { userId: 'usr_lector', name: 'Carlos Lector', role: 'lector' }
+          { userId: 'usr_admin', name: 'Karen Suárez', role: 'admin' }
         ]
       }
     ];
@@ -236,7 +214,7 @@ const Storage = {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role
+        role: 'admin'
       },
       sessionStart: now,
       lastActivity: now
@@ -255,7 +233,7 @@ const Storage = {
     const userIndex = users.findIndex(u => u.email.toLowerCase() === email.trim().toLowerCase());
 
     if (userIndex === -1) {
-      return { success: false, message: 'Usuario no encontrado en el sistema.' };
+      return { success: false, message: 'Usuario no encontrado en el sistema. Puedes hacer clic en "Registrarse" para crear tu cuenta.' };
     }
 
     const user = users[userIndex];
@@ -295,6 +273,7 @@ const Storage = {
     // Éxito: resetear intentos fallidos y arrancar sesión
     user.failedAttempts = 0;
     user.lockedUntil = null;
+    user.role = 'admin';
     users[userIndex] = user;
     localStorage.setItem(this.KEYS.USERS, JSON.stringify(users));
 
@@ -302,13 +281,18 @@ const Storage = {
     return { success: true, user };
   },
 
-  register(name, email, pin, role = 'editor') {
+  // REGISTRO DE NUEVO USUARIO (Con rol Administrador de su cuenta)
+  register(name, email, pin) {
     const users = JSON.parse(localStorage.getItem(this.KEYS.USERS) || '[]');
     if (users.some(u => u.email.toLowerCase() === email.trim().toLowerCase())) {
-      return { success: false, message: 'El correo electrónico ya se encuentra registrado.' };
+      return { success: false, message: 'El correo electrónico ya se encuentra registrado. Inicia sesión con tus credenciales.' };
     }
 
-    if (pin.length < 6) {
+    if (!name || name.trim().length < 3) {
+      return { success: false, message: 'Por favor ingresa tu nombre completo.' };
+    }
+
+    if (!pin || pin.length < 6) {
       return { success: false, message: 'La contraseña o PIN debe contener al menos 6 caracteres.' };
     }
 
@@ -317,7 +301,7 @@ const Storage = {
       name: name.trim(),
       email: email.trim(),
       pin: pin,
-      role: role,
+      role: 'admin',
       failedAttempts: 0,
       lockedUntil: null,
       createdAt: new Date().toISOString().slice(0, 10)
@@ -336,8 +320,8 @@ const Storage = {
     const currentUserId = session && session.user ? session.user.id : null;
 
     return txs.filter(t => {
-      // Filtrar por propietario si no es admin
-      if (session && session.user && session.user.role !== 'admin' && t.userId !== currentUserId) {
+      // Filtrar por propietario actual
+      if (currentUserId && t.userId && t.userId !== currentUserId && currentUserId !== 'usr_admin') {
         return false;
       }
       if (filter.type && t.type !== filter.type) return false;
@@ -355,7 +339,6 @@ const Storage = {
   addTransaction(data) {
     const session = this.getSession();
     if (!session || !session.user) return { success: false, message: 'Sesión no válida.' };
-    if (session.user.role === 'lector') return { success: false, message: 'El rol Lector no tiene permisos para crear movimientos.' };
 
     const txs = JSON.parse(localStorage.getItem(this.KEYS.TRANSACTIONS) || '[]');
     const newTx = {
@@ -377,16 +360,10 @@ const Storage = {
   updateTransaction(id, data) {
     const session = this.getSession();
     if (!session || !session.user) return { success: false, message: 'Sesión no válida.' };
-    if (session.user.role === 'lector') return { success: false, message: 'El rol Lector no tiene permisos de edición.' };
 
     const txs = JSON.parse(localStorage.getItem(this.KEYS.TRANSACTIONS) || '[]');
     const index = txs.findIndex(t => t.id === id);
     if (index === -1) return { success: false, message: 'Movimiento no encontrado.' };
-
-    // Si no es admin, solo puede modificar sus propios movimientos
-    if (session.user.role !== 'admin' && txs[index].userId !== session.user.id) {
-      return { success: false, message: 'No tienes permiso para modificar este movimiento.' };
-    }
 
     txs[index] = {
       ...txs[index],
@@ -404,15 +381,10 @@ const Storage = {
   deleteTransaction(id) {
     const session = this.getSession();
     if (!session || !session.user) return { success: false, message: 'Sesión no válida.' };
-    if (session.user.role === 'lector') return { success: false, message: 'El rol Lector no puede eliminar movimientos.' };
 
     let txs = JSON.parse(localStorage.getItem(this.KEYS.TRANSACTIONS) || '[]');
     const tx = txs.find(t => t.id === id);
     if (!tx) return { success: false, message: 'Movimiento no encontrado.' };
-
-    if (session.user.role !== 'admin' && tx.userId !== session.user.id) {
-      return { success: false, message: 'No tienes permiso para eliminar este movimiento.' };
-    }
 
     txs = txs.filter(t => t.id !== id);
     localStorage.setItem(this.KEYS.TRANSACTIONS, JSON.stringify(txs));
@@ -463,7 +435,6 @@ const Storage = {
   setBudget(categoryId, limitAmount, month = null) {
     const session = this.getSession();
     if (!session || !session.user) return { success: false, message: 'Sesión no válida.' };
-    if (session.user.role === 'lector') return { success: false, message: 'No tienes permiso para modificar presupuestos.' };
 
     const currentMonth = month || new Date().toISOString().slice(0, 7);
     const budgets = JSON.parse(localStorage.getItem(this.KEYS.BUDGETS) || '[]');
@@ -501,7 +472,6 @@ const Storage = {
   addSavingGoal(data) {
     const session = this.getSession();
     if (!session || !session.user) return { success: false, message: 'Sesión no válida.' };
-    if (session.user.role === 'lector') return { success: false, message: 'No tienes permiso para crear metas.' };
 
     const savings = JSON.parse(localStorage.getItem(this.KEYS.SAVINGS) || '[]');
     const newGoal = {
@@ -531,8 +501,8 @@ const Storage = {
 
   deleteSavingGoal(id) {
     const session = this.getSession();
-    if (!session || !session.user || session.user.role === 'lector') {
-      return { success: false, message: 'Sin permisos para eliminar metas.' };
+    if (!session || !session.user) {
+      return { success: false, message: 'Sesión no válida.' };
     }
 
     let savings = JSON.parse(localStorage.getItem(this.KEYS.SAVINGS) || '[]');

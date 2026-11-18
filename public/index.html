@@ -61,23 +61,52 @@
         </div>
       </div>
 
+      <!-- Selector de Modo: Iniciar Sesión / Registrarse -->
+      <div style="display:flex; gap:8px; margin-bottom:20px; background:var(--surface-2); padding:4px; border-radius:var(--btn-radius); border:1px solid var(--border);">
+        <button type="button" id="auth-tab-login" class="btn-3d btn-3d--sm" style="flex:1;" onclick="document.getElementById('form-login').style.display='block'; document.getElementById('form-register').style.display='none'; this.className='btn-3d btn-3d--sm'; document.getElementById('auth-tab-register').className='btn-3d btn-3d--secondary btn-3d--sm';">Iniciar Sesión</button>
+        <button type="button" id="auth-tab-register" class="btn-3d btn-3d--secondary btn-3d--sm" style="flex:1;" onclick="document.getElementById('form-login').style.display='none'; document.getElementById('form-register').style.display='block'; this.className='btn-3d btn-3d--sm'; document.getElementById('auth-tab-login').className='btn-3d btn-3d--secondary btn-3d--sm';">Registrarse</button>
+      </div>
+
       <!-- Formulario Login -->
       <form id="form-login" onsubmit="event.preventDefault(); const res = Storage.login(document.getElementById('login-email').value, document.getElementById('login-pin').value); if(res.success){ App.showToast('¡Bienvenido a MoneyTrack!', 'success'); App.checkSession(); App.renderCurrentView(); } else { App.showToast(res.message, 'danger'); }">
         <div style="margin-bottom:16px;">
           <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Correo Electrónico</label>
           <input type="email" id="login-email" class="input-3d" placeholder="admin@moneytrack.com" required value="admin@moneytrack.com">
         </div>
-        <div style="margin-bottom:22px;">
+        <div style="margin-bottom:20px;">
           <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Contraseña / PIN</label>
           <input type="password" id="login-pin" class="input-3d" placeholder="••••••" required value="123456">
           <small style="display:block; margin-top:6px; font-size:0.75rem; color:var(--muted);">Demostración: Clave <strong>123456</strong></small>
         </div>
         <button type="submit" class="btn-3d" style="width:100%; min-height:46px;">Iniciar Sesión</button>
+        <p style="text-align:center; margin-top:14px; font-size:0.8rem; color:var(--muted);">
+          ¿No tienes cuenta? <a href="#" style="color:var(--accent-text); font-weight:700;" onclick="event.preventDefault(); document.getElementById('auth-tab-register').click();">Regístrate aquí</a>
+        </p>
       </form>
 
-      <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border); font-size:0.78rem; color:var(--muted); text-align:center;">
-        <span>Cuentas precargadas: <strong>admin</strong> | <strong>karen</strong> | <strong>carlos</strong></span>
-      </div>
+      <!-- Formulario Registro -->
+      <form id="form-register" style="display:none;" onsubmit="event.preventDefault(); const n = document.getElementById('reg-name').value; const e = document.getElementById('reg-email').value; const p1 = document.getElementById('reg-pin').value; const p2 = document.getElementById('reg-pin-confirm').value; if(p1 !== p2){ App.showToast('Las contraseñas no coinciden.', 'danger'); return; } const res = Storage.register(n, e, p1); if(res.success){ App.showToast('¡Cuenta creada con éxito! Bienvenido a MoneyTrack.', 'success'); App.checkSession(); App.renderCurrentView(); } else { App.showToast(res.message, 'danger'); }">
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Nombre Completo</label>
+          <input type="text" id="reg-name" class="input-3d" placeholder="Ej: Karen Suárez" required>
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Correo Electrónico</label>
+          <input type="email" id="reg-email" class="input-3d" placeholder="nombre@correo.com" required>
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Contraseña / PIN (mínimo 6 caracteres)</label>
+          <input type="password" id="reg-pin" class="input-3d" placeholder="Mínimo 6 dígitos o letras" minlength="6" required>
+        </div>
+        <div style="margin-bottom:20px;">
+          <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Confirmar Contraseña</label>
+          <input type="password" id="reg-pin-confirm" class="input-3d" placeholder="Repite tu clave" minlength="6" required>
+        </div>
+        <button type="submit" class="btn-3d" style="width:100%; min-height:46px;">Crear mi Cuenta y Empezar</button>
+        <p style="text-align:center; margin-top:14px; font-size:0.8rem; color:var(--muted);">
+          ¿Ya tienes cuenta? <a href="#" style="color:var(--accent-text); font-weight:700;" onclick="event.preventDefault(); document.getElementById('auth-tab-login').click();">Inicia sesión aquí</a>
+        </p>
+      </form>
     </div>
   </div>
 

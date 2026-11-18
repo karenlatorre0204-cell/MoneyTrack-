@@ -6,6 +6,8 @@ package-lock.json
 dist/
 build/
 *.exe
+!MoneyTrack.exe
+!portable/MoneyTrack.exe
 
 # Logs y temporales
 *.log
