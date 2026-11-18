@@ -13,7 +13,7 @@ namespace MoneyTrackLauncher
             try
             {
                 string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-                // Si el ejecutable está en la carpeta portable/, subir un nivel
+                // Si el ejecutable está dentro de portable/, subir a la raíz
                 if (File.Exists(Path.Combine(baseDir, "..", "public", "index.html")))
                 {
                     baseDir = Path.GetFullPath(Path.Combine(baseDir, ".."));
@@ -22,50 +22,57 @@ namespace MoneyTrackLauncher
                 string htmlPath = Path.Combine(baseDir, "public", "index.html");
                 if (!File.Exists(htmlPath))
                 {
-                    MessageBox.Show("No se encontró el archivo principal: " + htmlPath, "MoneyTrack - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("No se encontró el archivo principal en:\n" + htmlPath, "MoneyTrack - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // 1. Intentar Electron si está instalado
-                string electronLocal = Path.Combine(baseDir, "node_modules", ".bin", "electron.cmd");
-                if (File.Exists(electronLocal))
+                string fileUri = "file:///" + htmlPath.Replace('\\', '/');
+
+                // 1. Intentar abrir con Microsoft Edge en Modo App de escritorio
+                bool opened = false;
+                try
                 {
-                    ProcessStartInfo psi = new ProcessStartInfo(electronLocal, ".")
+                    ProcessStartInfo psiEdge = new ProcessStartInfo
                     {
-                        WorkingDirectory = baseDir,
-                        CreateNoWindow = true,
-                        UseShellExecute = false
+                        FileName = "msedge.exe",
+                        Arguments = "--new-window --app=" + fileUri + " --window-size=1320,860",
+                        UseShellExecute = true
                     };
-                    Process.Start(psi);
-                    return;
+                    Process p = Process.Start(psiEdge);
+                    if (p != null) opened = true;
                 }
-
-                // 2. Ejecutar con Microsoft Edge en Modo Aplicación de Escritorio (--app)
-                string edge64 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Microsoft", "Edge", "Application", "msedge.exe");
-                string edge32 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Microsoft", "Edge", "Application", "msedge.exe");
-                string edgePath = File.Exists(edge64) ? edge64 : (File.Exists(edge32) ? edge32 : null);
-
-                if (edgePath != null)
+                catch
                 {
-                    string args = string.Format("--app=\"file:///{0}\" --window-size=1320,860", htmlPath.Replace('\\', '/'));
-                    Process.Start(edgePath, args);
-                    return;
+                    opened = false;
                 }
 
-                // 3. Ejecutar con Google Chrome en Modo Aplicación
-                string chrome64 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Google", "Chrome", "Application", "chrome.exe");
-                string chrome32 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Google", "Chrome", "Application", "chrome.exe");
-                string chromePath = File.Exists(chrome64) ? chrome64 : (File.Exists(chrome32) ? chrome32 : null);
+                if (opened) return;
 
-                if (chromePath != null)
+                // 2. Intentar abrir con Google Chrome en Modo App
+                try
                 {
-                    string args = string.Format("--app=\"file:///{0}\" --window-size=1320,860", htmlPath.Replace('\\', '/'));
-                    Process.Start(chromePath, args);
-                    return;
+                    ProcessStartInfo psiChrome = new ProcessStartInfo
+                    {
+                        FileName = "chrome.exe",
+                        Arguments = "--new-window --app=" + fileUri + " --window-size=1320,860",
+                        UseShellExecute = true
+                    };
+                    Process p = Process.Start(psiChrome);
+                    if (p != null) opened = true;
+                }
+                catch
+                {
+                    opened = false;
                 }
 
-                // 4. Fallback abrir archivo HTML
-                Process.Start(new ProcessStartInfo(htmlPath) { UseShellExecute = true });
+                if (opened) return;
+
+                // 3. Fallback infalible de Windows Shell
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = htmlPath,
+                    UseShellExecute = true
+                });
             }
             catch (Exception ex)
             {
