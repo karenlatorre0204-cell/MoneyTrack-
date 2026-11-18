@@ -1,0 +1,15 @@
+# Entorno y dependencias
+node_modules/
+package-lock.json
+
+# Builds portables y empaquetado
+dist/
+build/
+*.exe
+
+# Logs y temporales
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,123 @@
+{
+  "id": "3d-effects",
+  "slug": "3d-effects",
+  "order": 60,
+  "name": "3D Effects and Depth",
+  "technicalName": "Efectos 3D y profundidad",
+  "aliases": [
+    "3D UI",
+    "Profundidad 3D"
+  ],
+  "version": "1.0",
+  "year": "2020",
+  "category": "geometria",
+  "tags": [
+    "3D",
+    "perspectiva",
+    "volumen",
+    "extrusión"
+  ],
+  "priority": "should",
+  "thumbnail": "card.html",
+  "accentColor": "#6C5CE7",
+  "palette": [
+    "#0F1220",
+    "#1A1F33",
+    "#6C5CE7",
+    "#00D2FF",
+    "#EEF2FF"
+  ],
+  "fontsUsed": [
+    "outfit",
+    "space-grotesk",
+    "jetbrains-mono"
+  ],
+  "libsUsed": [],
+  "summary": "Perspectiva, extrusión y luz: componentes que parecen objetos sólidos en el espacio.",
+  "sections": {
+    "nombreComun": "Efectos 3D",
+    "nombreTecnico": "3D UI; perspectiva, extrusión y profundidad simulada",
+    "historia": "Los efectos 3D en interfaces comenzaron con los iconos realistas de los primeros sistemas operativos y se sofisticaron con el skeuomorfismo. La web los recuperó con CSS 3D transforms y, más tarde, con WebGL. La idea es dar volumen a los componentes sin salir del navegador: perspectivas, sombras, biseles y extrusión tipográfica. A partir de 2020, las tarjetas 3D y los objetos flotantes se popularizaron en portfolios y landings de producto. Su atractivo es la tangibleidad: un botón parece poder pulsarse. El riesgo es el exceso: demasiados efectos compiten y dificultan la lectura. El 3D debe tener una función.",
+    "composicion": "La perspectiva se aplica a contenedores y tarjetas, con transformaciones sutiles. La extrusión se logra con sombras múltiples o capas desplazadas. La luz es consistente y las sombras caen en una dirección. La tipografía se mantiene nítida en el plano frontal. Los elementos flotan en un espacio con profundidad. La composición es ordenada y centrada. El movimiento inclina las tarjetas al pasar el cursor y respeta reduced-motion. La clave es la coherencia de la luz y la moderación de la perspectiva.",
+    "colorimetria": "Fondos oscuros con superficies en pasos de azul. Los acentos violeta y cian se usan en bordes y controles. Las sombras son profundas y difusas; los brillos, blancos y suaves. El texto es blanco azulado. La paleta es fría y tecnológica. El contraste se mantiene alto sobre las superficies oscuras. El 3D se percibe por la diferencia de luminosidad entre caras. Los colores no deben competir con la ilusión de volumen.",
+    "comoReconocer": [
+      "Perspectiva y tarjetas inclinadas",
+      "Extrusión y sombras múltiples",
+      "Luz consistente y brillos",
+      "Violeta y cian sobre azul oscuro",
+      "Sensación de objetos sólidos"
+    ],
+    "datosCuriosos": "CSS 3D transforms se estandarizó en 2009 y permitió perspectivas sin plugins. La extrusión tipográfica se puede simular con varias text-shadow desplazadas en cadena.",
+    "creador": "Diseñadores de interfaces realistas y la comunidad de CSS 3D",
+    "quienLoUsa": "Portfolios, videojuegos, presentaciones de producto y herramientas creativas"
+  },
+  "antipatrones": [
+    "Perspectivas exageradas que deforman el texto",
+    "Luces contradictorias entre elementos",
+    "Efectos 3D en cada componente"
+  ],
+  "referencias": [
+    "https://en.wikipedia.org/wiki/3D_computer_graphics",
+    "https://developer.mozilla.org/en-US/docs/Web/CSS/transform"
+  ],
+  "views": [
+    {
+      "id": "index",
+      "file": "index.html",
+      "label": "Guía del estilo"
+    },
+    {
+      "id": "one-page",
+      "file": "one-page.html",
+      "label": "One page"
+    },
+    {
+      "id": "dashboard",
+      "file": "dashboard.html",
+      "label": "Panel de control"
+    },
+    {
+      "id": "chat",
+      "file": "chat.html",
+      "label": "Chat IA"
+    },
+    {
+      "id": "login",
+      "file": "login.html",
+      "label": "Login"
+    },
+    {
+      "id": "blank",
+      "file": "blank.html",
+      "label": "Blank page"
+    },
+    {
+      "id": "404",
+      "file": "404.html",
+      "label": "404"
+    },
+    {
+      "id": "500",
+      "file": "500.html",
+      "label": "500"
+    },
+    {
+      "id": "sorry",
+      "file": "sorry.html",
+      "label": "Sorry"
+    }
+  ],
+  "app": {
+    "views": 9,
+    "themes": 12,
+    "modes": 4,
+    "geometries": 12,
+    "backgrounds": 12,
+    "animations": 12,
+    "languages": [
+      "es",
+      "en"
+    ],
+    "offline": true
+  }
+}

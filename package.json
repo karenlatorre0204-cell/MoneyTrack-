@@ -1,0 +1,41 @@
+{
+  "name": "moneytrack",
+  "version": "1.0.0",
+  "description": "MoneyTrack - Control inteligente de finanzas personales con estilo 3D Effects and Depth",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win portable"
+  },
+  "keywords": [
+    "finanzas",
+    "moneytrack",
+    "personal-finance",
+    "electron",
+    "3d-effects",
+    "accessibility"
+  ],
+  "author": "Karen Suarez",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.moneytrack.desktop",
+    "productName": "MoneyTrack",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "icon": "public/assets/icons/icon.ico"
+    },
+    "portable": {
+      "artifactName": "MoneyTrack-Portable-v${version}.exe"
+    }
+  }
+}

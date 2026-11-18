@@ -1,0 +1,23 @@
+{
+  "name": "MoneyTrack · Control inteligente de finanzas personales",
+  "short_name": "MoneyTrack",
+  "description": "Administración de finanzas personales, presupuestos, metas de ahorro y reportes con efectos 3D y profundidad.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0F1220",
+  "theme_color": "#6C5CE7",
+  "orientation": "any",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "assets/icons/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
