@@ -13,61 +13,75 @@ namespace MoneyTrackLauncher
             try
             {
                 string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-                // Si el ejecutable está dentro de portable/, subir a la raíz
+                // Si el ejecutable se ejecuta desde portable/, subir a la raíz del proyecto
                 if (File.Exists(Path.Combine(baseDir, "..", "public", "index.html")))
                 {
                     baseDir = Path.GetFullPath(Path.Combine(baseDir, ".."));
                 }
 
+                // 1. Prioridad: Ejecutable oficial empaquetado de Electron
+                string electronExe = Path.Combine(baseDir, "dist", "win-unpacked", "MoneyTrack.exe");
+                if (File.Exists(electronExe))
+                {
+                    ProcessStartInfo psiElectron = new ProcessStartInfo
+                    {
+                        FileName = electronExe,
+                        WorkingDirectory = Path.Combine(baseDir, "dist", "win-unpacked"),
+                        UseShellExecute = true
+                    };
+                    Process.Start(psiElectron);
+                    return;
+                }
+
+                // 2. Ejecutar con node_modules/electron si existe
+                string devElectron = Path.Combine(baseDir, "node_modules", "electron", "dist", "electron.exe");
+                if (File.Exists(devElectron))
+                {
+                    ProcessStartInfo psiDev = new ProcessStartInfo
+                    {
+                        FileName = devElectron,
+                        Arguments = "\".\"",
+                        WorkingDirectory = baseDir,
+                        UseShellExecute = true
+                    };
+                    Process.Start(psiDev);
+                    return;
+                }
+
+                // 3. Fallback: Modo App en Microsoft Edge o Navegador Web
                 string htmlPath = Path.Combine(baseDir, "public", "index.html");
                 if (!File.Exists(htmlPath))
                 {
-                    MessageBox.Show("No se encontró el archivo principal en:\n" + htmlPath, "MoneyTrack - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                        "No se encontró el archivo de la aplicación en:\n" + htmlPath,
+                        "MoneyTrack - Error de Inicio",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
                     return;
                 }
 
                 string fileUri = "file:///" + htmlPath.Replace('\\', '/');
-
-                // 1. Intentar abrir con Microsoft Edge en Modo App de escritorio
-                bool opened = false;
+                bool edgeStarted = false;
                 try
                 {
                     ProcessStartInfo psiEdge = new ProcessStartInfo
                     {
                         FileName = "msedge.exe",
-                        Arguments = "--new-window --app=" + fileUri + " --window-size=1320,860",
+                        Arguments = "--new-window --app=\"" + fileUri + "\" --window-size=1360,880",
                         UseShellExecute = true
                     };
                     Process p = Process.Start(psiEdge);
-                    if (p != null) opened = true;
+                    if (p != null) edgeStarted = true;
                 }
                 catch
                 {
-                    opened = false;
+                    edgeStarted = false;
                 }
 
-                if (opened) return;
+                if (edgeStarted) return;
 
-                // 2. Intentar abrir con Google Chrome en Modo App
-                try
-                {
-                    ProcessStartInfo psiChrome = new ProcessStartInfo
-                    {
-                        FileName = "chrome.exe",
-                        Arguments = "--new-window --app=" + fileUri + " --window-size=1320,860",
-                        UseShellExecute = true
-                    };
-                    Process p = Process.Start(psiChrome);
-                    if (p != null) opened = true;
-                }
-                catch
-                {
-                    opened = false;
-                }
-
-                if (opened) return;
-
-                // 3. Fallback infalible de Windows Shell
+                // 4. Fallback al navegador predeterminado de Windows
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = htmlPath,
@@ -76,7 +90,12 @@ namespace MoneyTrackLauncher
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al iniciar MoneyTrack: " + ex.Message, "MoneyTrack", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Error al iniciar MoneyTrack: " + ex.Message,
+                    "MoneyTrack",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
     }

@@ -1,8 +1,119 @@
 /**
- * MONEYTRACK · Theme & Accessibility Engine
+ * MONEYTRACK · Theme, Accessibility & Sound Engine
  * 12 Temas · 4 Modos · Daltonismo (Protanopía, Deuteranopía, Tritanopía)
+ * Escalado Dinámico de Fuente (A- / A+) · Sintetizador Web Audio API Háptico
  * Persistencia en localStorage
  */
+
+const SoundEngine = {
+  ctx: null,
+
+  getAudioContext() {
+    if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      this.ctx = new AudioCtx();
+    }
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume();
+    }
+    return this.ctx;
+  },
+
+  isEnabled() {
+    const prefs = ThemeEngine.getPreferences();
+    return prefs.soundEnabled !== false;
+  },
+
+  // Sonido de moneda brillante al registrar ingresos o abonos
+  playCoin() {
+    if (!this.isEnabled()) return;
+    try {
+      const ctx = this.getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc1.type = 'sine';
+      osc2.type = 'triangle';
+
+      osc1.frequency.setValueAtTime(987.77, now); // B5
+      osc1.frequency.exponentialRampToValueAtTime(1318.51, now + 0.08); // E6
+
+      osc2.frequency.setValueAtTime(1318.51, now);
+      osc2.frequency.exponentialRampToValueAtTime(1975.53, now + 0.12); // B6
+
+      gain.gain.setValueAtTime(0.22, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
+
+      osc1.connect(gain);
+      osc2.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc1.start(now);
+      osc2.start(now);
+      osc1.stop(now + 0.33);
+      osc2.stop(now + 0.33);
+    } catch (e) {
+      // Audio fallback silencioso
+    }
+  },
+
+  // Sonido de confirmación suave para gastos o acciones
+  playClick() {
+    if (!this.isEnabled()) return;
+    try {
+      const ctx = this.getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.exponentialRampToValueAtTime(220, now + 0.05);
+
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.07);
+    } catch (e) {}
+  },
+
+  // Arpegio de logro o meta cumplida
+  playSuccess() {
+    if (!this.isEnabled()) return;
+    try {
+      const ctx = this.getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+
+      [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + (idx * 0.07));
+
+        gain.gain.setValueAtTime(0.18, now + (idx * 0.07));
+        gain.gain.exponentialRampToValueAtTime(0.001, now + (idx * 0.07) + 0.24);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now + (idx * 0.07));
+        osc.stop(now + (idx * 0.07) + 0.25);
+      });
+    } catch (e) {}
+  }
+};
 
 const ThemeEngine = {
   THEMES: [
@@ -21,6 +132,7 @@ const ThemeEngine = {
   ],
 
   MODES: ['dark', 'light', 'contrast', 'auto'],
+  FONT_SCALES: [85, 100, 115, 130],
 
   init() {
     this.loadPreferences();
@@ -32,6 +144,8 @@ const ThemeEngine = {
       theme: 0,
       mode: 'dark',
       colorblind: 'none',
+      fontScale: 100,
+      soundEnabled: true,
       reduceMotion: false,
       highFocus: false,
       underlineLinks: false,
@@ -55,6 +169,7 @@ const ThemeEngine = {
     this.applyTheme(prefs.theme, false);
     this.applyMode(prefs.mode, false);
     this.applyColorblind(prefs.colorblind, false);
+    this.applyFontScale(prefs.fontScale, false);
     this.applyA11yFlags(prefs);
   },
 
@@ -95,10 +210,55 @@ const ThemeEngine = {
     }
   },
 
+  applyFontScale(scale, save = true) {
+    const validScale = [85, 100, 115, 130].includes(Number(scale)) ? Number(scale) : 100;
+    document.documentElement.style.setProperty('--ui-font-scale', (validScale / 100).toString());
+    document.documentElement.setAttribute('data-font-scale', validScale.toString());
+
+    // Actualizar indicador visual en el drawer si existe
+    const indicator = document.getElementById('a11y-font-scale-label');
+    if (indicator) {
+      indicator.textContent = `${validScale}%`;
+    }
+
+    if (save) {
+      const prefs = this.getPreferences();
+      prefs.fontScale = validScale;
+      this.savePreferences(prefs);
+    }
+  },
+
+  changeFontScale(delta) {
+    const prefs = this.getPreferences();
+    const current = prefs.fontScale || 100;
+    let nextIndex = this.FONT_SCALES.indexOf(current) + delta;
+    if (nextIndex < 0) nextIndex = 0;
+    if (nextIndex >= this.FONT_SCALES.length) nextIndex = this.FONT_SCALES.length - 1;
+    this.applyFontScale(this.FONT_SCALES[nextIndex], true);
+  },
+
+  toggleSound(enable = null) {
+    const prefs = this.getPreferences();
+    const nextState = enable !== null ? enable : !prefs.soundEnabled;
+    prefs.soundEnabled = nextState;
+    this.savePreferences(prefs);
+
+    const checkbox = document.getElementById('a11y-sound-toggle');
+    if (checkbox) checkbox.checked = nextState;
+
+    if (nextState) {
+      SoundEngine.playCoin();
+    }
+    return nextState;
+  },
+
   applyA11yFlags(prefs) {
     document.body.classList.toggle('a11y-reduce-motion', !!prefs.reduceMotion);
     document.body.classList.toggle('a11y-focus', !!prefs.highFocus);
     document.body.classList.toggle('a11y-underline', !!prefs.underlineLinks);
+
+    const soundCb = document.getElementById('a11y-sound-toggle');
+    if (soundCb) soundCb.checked = prefs.soundEnabled !== false;
 
     const sidebar = document.getElementById('app-sidebar');
     if (sidebar) {

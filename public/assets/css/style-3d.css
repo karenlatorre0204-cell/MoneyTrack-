@@ -7,6 +7,7 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root {
+  --ui-font-scale: 1;
   /* Paleta Base: 3D Effects and Depth */
   --bg: #0F1220;
   --surface: #1A1F33;
@@ -65,6 +66,7 @@
 
 html {
   font-family: var(--font-body);
+  font-size: calc(16px * var(--ui-font-scale, 1));
   background-color: var(--bg);
   color: var(--fg);
   line-height: 1.55;
@@ -727,3 +729,312 @@ body.a11y-underline a {
   from { opacity: 0; transform: translateX(30px); }
   to { opacity: 1; transform: translateX(0); }
 }
+
+/* ==========================================================================
+   NUEVOS COMPONENTES: CALENDARIO, PRÉSTAMOS, SIMULADOR, SCORE & GAMIFICACIÓN
+   ========================================================================== */
+
+/* 1. Atajos de Teclado (KBD) */
+.kbd-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: var(--surface-2);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 0 var(--border);
+  border-radius: 6px;
+  padding: 2px 7px;
+  user-select: none;
+}
+
+/* 2. Calendario Financiero Interactivo */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.cal-weekday {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding: 8px 4px;
+}
+
+.cal-day-cell {
+  min-height: 96px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s var(--ease), border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
+  position: relative;
+}
+
+.cal-day-cell:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+.cal-day-cell.is-today {
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 16px -4px var(--accent);
+}
+
+.cal-day-cell.is-other-month {
+  opacity: 0.35;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.cal-day-num {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cal-pill-inc {
+  background: var(--success-bg);
+  color: var(--success);
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 2px 4px;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.cal-pill-exp {
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 2px 4px;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* 3. Módulo "Me Deben / Debo" */
+.loan-card-3d {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 20px;
+  box-shadow: var(--shadow-3d);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.badge-3d--pending {
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-3d--partial {
+  background: var(--info-bg);
+  color: var(--info);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.badge-3d--paid {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-3d--overdue {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  animation: pulseWarning 2s infinite;
+}
+
+@keyframes pulseWarning {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
+}
+
+/* 4. Simulador "¿Puedo Permitírmelo?" */
+.sim-result-card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 24px;
+  box-shadow: var(--shadow-3d);
+  transition: all 0.25s var(--ease);
+}
+
+.sim-result-card.verdict-success {
+  border-color: var(--success);
+  box-shadow: 0 16px 36px -12px rgba(16, 185, 129, 0.35);
+}
+
+.sim-result-card.verdict-warning {
+  border-color: var(--warning);
+  box-shadow: 0 16px 36px -12px rgba(245, 158, 11, 0.35);
+}
+
+.sim-result-card.verdict-danger {
+  border-color: var(--danger);
+  box-shadow: 0 16px 36px -12px rgba(239, 68, 68, 0.35);
+}
+
+/* 5. Score de Salud Financiera */
+.health-gauge-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: radial-gradient(circle at center, var(--surface-2) 0%, var(--surface) 100%);
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-3d);
+  text-align: center;
+}
+
+.health-score-circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 8px solid var(--accent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 12px auto;
+  box-shadow: 0 0 30px -5px var(--accent);
+  background: var(--surface);
+}
+
+/* 6. Gamificación y Medallas */
+.trophy-card-3d {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: var(--shadow-3d);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  position: relative;
+  transition: transform 0.2s var(--ease);
+}
+
+.trophy-card-3d:hover {
+  transform: translateY(-3px);
+}
+
+.trophy-card-3d.is-locked {
+  opacity: 0.5;
+  filter: grayscale(0.85);
+}
+
+.challenge-grid-30 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
+  gap: 10px;
+}
+
+.challenge-tile {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px 4px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 0 var(--border);
+  transition: all 0.15s var(--ease);
+}
+
+.challenge-tile:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+.challenge-tile.is-done {
+  background: var(--success);
+  color: #FFFFFF;
+  border-color: color-mix(in srgb, var(--success) 70%, #000);
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--success) 50%, #000);
+}
+
+/* 7. Buscador Global Rápido (Ctrl + K) */
+.quick-search-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 500;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 10vh;
+  animation: fadeIn 0.2s var(--ease);
+}
+
+.quick-search-container {
+  width: min(650px, 94vw);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  animation: scaleUp 0.2s var(--ease);
+}
+
+.quick-search-input {
+  width: 100%;
+  padding: 16px 20px;
+  font-size: 1.1rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--fg);
+  font-family: var(--font-body);
+  outline: none;
+}
+
+.quick-search-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border-light);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.quick-search-item:hover {
+  background: var(--surface-hover);
+}
+

@@ -44,6 +44,13 @@
     <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 17v5M5 5h14l-2 7H7L5 5z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
     <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-loans" viewBox="0 0 24 24"><path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v1M18 8l4 4-4 4M8 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-simulator" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.45 1-1 1H8v4h8v-4h-1c-.55 0-1-.45-1-1v-2.34c3.08-.85 5-3.65 5-6.66V4H5v4c0 3.01 1.92 5.81 5 6.66z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82zM7 7h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></symbol>
   </svg>
 
   <!-- ======================================================================
@@ -61,26 +68,26 @@
         </div>
       </div>
 
-      <!-- Selector de Modo: Iniciar Sesión / Registrarse -->
-      <div style="display:flex; gap:8px; margin-bottom:20px; background:var(--surface-2); padding:4px; border-radius:var(--btn-radius); border:1px solid var(--border);">
-        <button type="button" id="auth-tab-login" class="btn-3d btn-3d--sm" style="flex:1;" onclick="document.getElementById('form-login').style.display='block'; document.getElementById('form-register').style.display='none'; this.className='btn-3d btn-3d--sm'; document.getElementById('auth-tab-register').className='btn-3d btn-3d--secondary btn-3d--sm';">Iniciar Sesión</button>
-        <button type="button" id="auth-tab-register" class="btn-3d btn-3d--secondary btn-3d--sm" style="flex:1;" onclick="document.getElementById('form-login').style.display='none'; document.getElementById('form-register').style.display='block'; this.className='btn-3d btn-3d--sm'; document.getElementById('auth-tab-login').className='btn-3d btn-3d--secondary btn-3d--sm';">Registrarse</button>
+      <!-- Pestañas Auth: Iniciar Sesión / Registrarse -->
+      <div style="display:flex; gap:8px; margin-bottom:20px; background:var(--surface-2); padding:4px; border-radius:12px; border:1px solid var(--border);">
+        <button id="auth-tab-login" class="btn-3d btn-3d--sm" style="flex:1;" onclick="App.toggleAuthTab('login')">Iniciar Sesión</button>
+        <button id="auth-tab-register" class="btn-3d btn-3d--secondary btn-3d--sm" style="flex:1;" onclick="App.toggleAuthTab('register')">Registrarse</button>
       </div>
 
       <!-- Formulario Login -->
       <form id="form-login" onsubmit="event.preventDefault(); const res = Storage.login(document.getElementById('login-email').value, document.getElementById('login-pin').value); if(res.success){ App.showToast('¡Bienvenido a MoneyTrack!', 'success'); App.checkSession(); App.renderCurrentView(); } else { App.showToast(res.message, 'danger'); }">
         <div style="margin-bottom:16px;">
           <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Correo Electrónico</label>
-          <input type="email" id="login-email" class="input-3d" placeholder="admin@moneytrack.com" required value="admin@moneytrack.com">
+          <input type="email" id="login-email" class="input-3d" placeholder="tu_correo@ejemplo.com" required>
         </div>
         <div style="margin-bottom:20px;">
           <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Contraseña / PIN</label>
-          <input type="password" id="login-pin" class="input-3d" placeholder="••••••" required value="123456">
-          <small style="display:block; margin-top:6px; font-size:0.75rem; color:var(--muted);">Demostración: Clave <strong>123456</strong></small>
+          <input type="password" id="login-pin" class="input-3d" placeholder="••••••" required>
+          <small style="display:block; margin-top:6px; font-size:0.75rem; color:var(--muted);">Protección con bloqueo tras 5 intentos fallidos</small>
         </div>
         <button type="submit" class="btn-3d" style="width:100%; min-height:46px;">Iniciar Sesión</button>
         <p style="text-align:center; margin-top:14px; font-size:0.8rem; color:var(--muted);">
-          ¿No tienes cuenta? <a href="#" style="color:var(--accent-text); font-weight:700;" onclick="event.preventDefault(); document.getElementById('auth-tab-register').click();">Regístrate aquí</a>
+          ¿Eres nuevo? <a href="#" style="color:var(--accent-text); font-weight:700;" onclick="event.preventDefault(); App.toggleAuthTab('register');">Crea tu cuenta aquí</a>
         </p>
       </form>
 
@@ -104,7 +111,7 @@
         </div>
         <button type="submit" class="btn-3d" style="width:100%; min-height:46px;">Crear mi Cuenta y Empezar</button>
         <p style="text-align:center; margin-top:14px; font-size:0.8rem; color:var(--muted);">
-          ¿Ya tienes cuenta? <a href="#" style="color:var(--accent-text); font-weight:700;" onclick="event.preventDefault(); document.getElementById('auth-tab-login').click();">Inicia sesión aquí</a>
+          ¿Ya tienes cuenta? <a href="#" style="color:var(--accent-text); font-weight:700;" onclick="event.preventDefault(); App.toggleAuthTab('login');">Inicia sesión aquí</a>
         </p>
       </form>
     </div>
@@ -133,11 +140,17 @@
       </div>
 
       <div class="app-header-actions">
+        <!-- Buscador Rápido (Ctrl + K) -->
+        <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="App.openQuickSearchModal()" title="Búsqueda rápida global [Ctrl + K]">
+          <svg width="16" height="16"><use href="#i-search"/></svg>
+          <span style="font-size:0.75rem; display:none; @media(min-width:600px){display:inline;}">Buscar</span>
+          <span class="kbd-pill" style="font-size:0.65rem; margin-left:4px;">Ctrl+K</span>
+        </button>
+
         <!-- Usuario activo -->
         <div style="display:flex; align-items:center; gap:8px; background:var(--surface); padding:4px 12px; border-radius:999px; border:1px solid var(--border);">
           <svg width="18" height="18" style="color:var(--accent);"><use href="#i-user"/></svg>
           <span id="header-user-name" style="font-size:0.82rem; font-weight:700;">Usuario</span>
-          <span id="header-user-role" class="badge-3d badge-3d--accent" style="padding:2px 6px; font-size:0.6rem;">ADMIN</span>
         </div>
 
         <!-- Botón Drawer Estilos & Accesibilidad -->
@@ -180,13 +193,29 @@
             <svg width="18" height="18"><use href="#i-budget"/></svg>
             <span class="nav-text">Presupuestos</span>
           </a>
+          <a href="#" class="nav-item" data-nav-target="loans">
+            <svg width="18" height="18"><use href="#i-loans"/></svg>
+            <span class="nav-text">Me Deben / Debo</span>
+          </a>
+          <a href="#" class="nav-item" data-nav-target="calendar">
+            <svg width="18" height="18"><use href="#i-calendar"/></svg>
+            <span class="nav-text">Calendario</span>
+          </a>
           <a href="#" class="nav-item" data-nav-target="savings">
             <svg width="18" height="18"><use href="#i-savings"/></svg>
             <span class="nav-text">Metas de Ahorro</span>
           </a>
+          <a href="#" class="nav-item" data-nav-target="simulator">
+            <svg width="18" height="18"><use href="#i-simulator"/></svg>
+            <span class="nav-text">Simulador de Compra</span>
+          </a>
+          <a href="#" class="nav-item" data-nav-target="achievements">
+            <svg width="18" height="18"><use href="#i-trophy"/></svg>
+            <span class="nav-text">Retos & Medallas</span>
+          </a>
           <a href="#" class="nav-item" data-nav-target="reports">
             <svg width="18" height="18"><use href="#i-reports"/></svg>
-            <span class="nav-text">Reportes</span>
+            <span class="nav-text">Reportes & Salud</span>
           </a>
           <a href="#" class="nav-item" data-nav-target="family">
             <svg width="18" height="18"><use href="#i-family"/></svg>
@@ -209,14 +238,14 @@
               <span class="badge-3d badge-3d--accent">Resumen Financiero</span>
               <h1 style="margin:6px 0 0; font-family:var(--font-head); font-size:clamp(1.8rem, 3.5vw, 2.4rem); letter-spacing:-0.03em;">Panel de Control</h1>
             </div>
-            <div style="display:flex; gap:10px;">
-              <button class="btn-3d" onclick="App.openAddTransactionModal('ingreso')">+ Nuevo Ingreso</button>
-              <button class="btn-3d btn-3d--secondary" onclick="App.openAddTransactionModal('gasto')">+ Registrar Gasto</button>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn-3d" onclick="App.openAddTransactionModal('ingreso')">+ Nuevo Ingreso <span class="kbd-pill" style="margin-left:4px; font-size:0.6rem;">Ctrl+I</span></button>
+              <button class="btn-3d btn-3d--secondary" onclick="App.openAddTransactionModal('gasto')">+ Registrar Gasto <span class="kbd-pill" style="margin-left:4px; font-size:0.6rem;">Ctrl+G</span></button>
             </div>
           </div>
 
           <!-- KPI Cards Grid -->
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:18px; margin-bottom:28px;">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:18px; margin-bottom:24px;">
             <div class="card-3d">
               <span style="font-family:var(--font-mono); font-size:0.7rem; color:var(--muted); text-transform:uppercase;">Balance Disponible</span>
               <h2 id="dash-balance" style="margin:8px 0; font-family:var(--font-head); font-size:1.8rem; letter-spacing:-0.03em;">$ 0 COP</h2>
@@ -239,6 +268,59 @@
               <span style="font-family:var(--font-mono); font-size:0.7rem; color:var(--muted); text-transform:uppercase;">Presupuesto Consumido</span>
               <h2 id="dash-budget-pct" style="margin:8px 0; font-family:var(--font-head); font-size:1.8rem; letter-spacing:-0.03em;">0%</h2>
               <small style="color:var(--warning);">Límite mensual por categorías</small>
+            </div>
+          </div>
+
+          <!-- Fila de Widgets Rápidos: Score de Salud Financiera & Acceso Rápido Simulador / Préstamos -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:20px; margin-bottom:28px;">
+            <!-- Widget Salud Financiera -->
+            <div class="card-3d" style="display:flex; flex-direction:column; justify-content:space-between;">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                <div>
+                  <span class="badge-3d badge-3d--accent" style="font-size:0.68rem;">Diagnóstico Automático</span>
+                  <h3 style="margin:6px 0 2px; font-family:var(--font-head); font-size:1.2rem;">Salud Financiera</h3>
+                </div>
+                <span id="dash-health-badge" class="badge-3d badge-3d--success" style="font-size:0.75rem;">Excelente</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:20px; margin:16px 0;">
+                <div class="health-score-circle" id="dash-health-circle" style="width:100px; height:100px; margin:0; flex-shrink:0;">
+                  <span id="dash-health-score" style="font-family:var(--font-head); font-size:2rem; font-weight:800;">--</span>
+                  <small style="font-size:0.65rem; color:var(--muted);">DE 100</small>
+                </div>
+                <div style="flex:1;">
+                  <p id="dash-health-summary" style="margin:0 0 10px; font-size:0.85rem; color:var(--muted); line-height:1.4;">
+                    Evaluación continua de ahorro, control de presupuestos y nivel de deuda.
+                  </p>
+                  <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="App.navigateTo('reports')">Ver Consejos y Diagnóstico</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Widget Simulador "¿Puedo Permitírmelo?" y Resumen Préstamos -->
+            <div class="card-3d" style="display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+                  <div>
+                    <span class="badge-3d badge-3d--accent" style="font-size:0.68rem;">Asistente de Compras</span>
+                    <h3 style="margin:4px 0 0; font-family:var(--font-head); font-size:1.2rem;">¿Puedo Permitírmelo?</h3>
+                  </div>
+                  <button class="btn-3d btn-3d--sm" onclick="App.navigateTo('simulator')">Simular <span class="kbd-pill" style="font-size:0.6rem;">Ctrl+P</span></button>
+                </div>
+                <p style="font-size:0.85rem; color:var(--muted); line-height:1.4; margin:0 0 16px;">
+                  Antes de gastar, consulta al asesor inteligente si tu saldo libre y compromisos del mes lo toleran.
+                </p>
+              </div>
+
+              <!-- Mini barra Me Deben / Debo -->
+              <div style="background:var(--surface-2); padding:12px 16px; border-radius:14px; border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <small style="color:var(--muted); font-size:0.7rem; text-transform:uppercase; font-weight:700;">Préstamos Personales</small>
+                  <div style="font-size:0.85rem; font-weight:700; margin-top:2px;">
+                    Cobrar: <span id="dash-me-deben-quick" style="color:var(--success);">$ 0</span> · Debo: <span id="dash-debo-quick" style="color:var(--danger);">$ 0</span>
+                  </div>
+                </div>
+                <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="App.navigateTo('loans')">Gestionar</button>
+              </div>
             </div>
           </div>
 
@@ -356,20 +438,142 @@
           <div id="gasto-pagination"></div>
         </section>
 
-        <!-- ==================== VISTA 4: PRESUPUESTOS ==================== -->
+        <!-- ==================== VISTA 4: PRESUPUESTOS Y CATEGORÍAS ==================== -->
         <section class="view-section" id="view-budgets" style="display:none;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
             <div>
               <span class="badge-3d badge-3d--warning">Límites y Control</span>
-              <h1 style="margin:4px 0 0; font-family:var(--font-head); font-size:1.9rem;">Presupuestos Mensuales</h1>
+              <h1 style="margin:4px 0 0; font-family:var(--font-head); font-size:1.9rem;">Presupuestos y Categorías</h1>
             </div>
-            <button class="btn-3d" onclick="App.openAddBudgetModal()">+ Configurar Presupuesto</button>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn-3d btn-3d--secondary" onclick="App.openAddCategoryModal()">+ Nueva Categoría</button>
+              <button class="btn-3d" onclick="App.openAddBudgetModal()">+ Configurar Presupuesto</button>
+            </div>
           </div>
 
-          <div id="budgets-cards-container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:18px;"></div>
+          <!-- Tarjetas de presupuestos activos -->
+          <div id="budgets-cards-container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:18px; margin-bottom:30px;"></div>
+
+          <!-- Gestor de Categorías Personalizadas -->
+          <div class="card-3d">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+              <div>
+                <h3 style="margin:0; font-family:var(--font-head); font-size:1.2rem;">Gestor de Categorías</h3>
+                <small style="color:var(--muted);">Crea y organiza tus propias categorías de ingreso y gasto</small>
+              </div>
+              <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="App.openAddCategoryModal()">+ Añadir Categoría</button>
+            </div>
+            <div id="categories-manager-container" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:12px;">
+              <!-- Categorías renderizadas dinámicamente -->
+            </div>
+          </div>
         </section>
 
-        <!-- ==================== VISTA 5: METAS DE AHORRO ==================== -->
+        <!-- ==================== VISTA 5: ME DEBEN / DEBO ==================== -->
+        <section class="view-section" id="view-loans" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+            <div>
+              <span class="badge-3d badge-3d--accent">Control de Préstamos Personales</span>
+              <h1 style="margin:4px 0 0; font-family:var(--font-head); font-size:1.9rem;">Me Deben / Debo</h1>
+            </div>
+            <button class="btn-3d" onclick="App.openAddLoanModal()">+ Nuevo Préstamo / Deuda</button>
+          </div>
+
+          <!-- KPI Summary Préstamos -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:20px;">
+            <div class="card-3d">
+              <span style="font-family:var(--font-mono); font-size:0.68rem; color:var(--muted); text-transform:uppercase;">Me Deben (Por Cobrar)</span>
+              <h3 id="loans-total-me-deben" style="margin:8px 0; font-size:1.5rem; color:var(--success);">$ 0 COP</h3>
+              <small style="color:var(--muted);">Dinero que prestaste a terceros</small>
+            </div>
+            <div class="card-3d">
+              <span style="font-family:var(--font-mono); font-size:0.68rem; color:var(--muted); text-transform:uppercase;">Debo (Por Pagar)</span>
+              <h3 id="loans-total-debo" style="margin:8px 0; font-size:1.5rem; color:var(--danger);">$ 0 COP</h3>
+              <small style="color:var(--muted);">Compromisos financieros pendientes</small>
+            </div>
+            <div class="card-3d">
+              <span style="font-family:var(--font-mono); font-size:0.68rem; color:var(--muted); text-transform:uppercase;">Balance Neto de Préstamos</span>
+              <h3 id="loans-net-balance" style="margin:8px 0; font-size:1.5rem;">$ 0 COP</h3>
+              <small style="color:var(--muted);">Diferencia (Cobrar - Pagar)</small>
+            </div>
+          </div>
+
+          <!-- Filtros de Préstamos -->
+          <div class="card-3d" style="margin-bottom:18px; padding:14px;">
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;">
+              <div style="display:flex; gap:8px; flex-wrap:wrap;" id="loans-filter-tabs">
+                <button class="btn-3d btn-3d--sm is-active-tab" data-loan-filter="all" onclick="App.setLoanFilter('all')">Todos</button>
+                <button class="btn-3d btn-3d--secondary btn-3d--sm" data-loan-filter="me_deben" onclick="App.setLoanFilter('me_deben')">Me Deben</button>
+                <button class="btn-3d btn-3d--secondary btn-3d--sm" data-loan-filter="debo" onclick="App.setLoanFilter('debo')">Debo</button>
+                <button class="btn-3d btn-3d--secondary btn-3d--sm" data-loan-filter="vencido" onclick="App.setLoanFilter('vencido')">⚠️ Vencidos</button>
+                <button class="btn-3d btn-3d--secondary btn-3d--sm" data-loan-filter="saldado" onclick="App.setLoanFilter('saldado')">Saldados</button>
+              </div>
+              <input type="text" id="loans-search-input" class="input-3d" style="max-width:240px;" placeholder="Buscar persona..." oninput="App.renderLoansView()">
+            </div>
+          </div>
+
+          <!-- Contenedor de Tarjetas de Préstamos -->
+          <div id="loans-cards-container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:18px;">
+            <!-- Renderizado dinámico -->
+          </div>
+        </section>
+
+        <!-- ==================== VISTA 6: CALENDARIO FINANCIERO ==================== -->
+        <section class="view-section" id="view-calendar" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+            <div>
+              <span class="badge-3d badge-3d--accent">Visualización Temporal</span>
+              <h1 style="margin:4px 0 0; font-family:var(--font-head); font-size:1.9rem;">Calendario Financiero</h1>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="App.calendarPrevMonth()">◀ Mes Anterior</button>
+              <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="App.calendarToday()">Hoy</button>
+              <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="App.calendarNextMonth()">Mes Siguiente ▶</button>
+            </div>
+          </div>
+
+          <!-- Mes actual y KPI mensual -->
+          <div class="card-3d" style="margin-bottom:18px; padding:18px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;">
+              <div>
+                <h2 id="calendar-month-title" style="margin:0; font-family:var(--font-head); font-size:1.6rem; letter-spacing:-0.02em;">Noviembre 2026</h2>
+                <small style="color:var(--muted);">Haz clic en cualquier día para inspeccionar o añadir movimientos</small>
+              </div>
+              <div style="display:flex; gap:18px; flex-wrap:wrap;">
+                <div>
+                  <small style="font-size:0.7rem; color:var(--muted); text-transform:uppercase;">Ingresos del Mes</small>
+                  <div id="cal-kpi-incomes" style="font-weight:700; color:var(--success); font-size:1.1rem;">$ 0</div>
+                </div>
+                <div>
+                  <small style="font-size:0.7rem; color:var(--muted); text-transform:uppercase;">Gastos del Mes</small>
+                  <div id="cal-kpi-expenses" style="font-weight:700; color:var(--danger); font-size:1.1rem;">$ 0</div>
+                </div>
+                <div>
+                  <small style="font-size:0.7rem; color:var(--muted); text-transform:uppercase;">Balance Neto</small>
+                  <div id="cal-kpi-balance" style="font-weight:700; font-size:1.1rem;">$ 0</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cuadrícula del Calendario -->
+          <div class="card-3d" style="padding:16px;">
+            <div class="calendar-grid" style="margin-bottom:8px;">
+              <div class="cal-weekday">Lun</div>
+              <div class="cal-weekday">Mar</div>
+              <div class="cal-weekday">Mié</div>
+              <div class="cal-weekday">Jue</div>
+              <div class="cal-weekday">Vie</div>
+              <div class="cal-weekday">Sáb</div>
+              <div class="cal-weekday">Dom</div>
+            </div>
+            <div class="calendar-grid" id="calendar-days-grid">
+              <!-- Días generados dinámicamente -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== VISTA 7: METAS DE AHORRO ==================== -->
         <section class="view-section" id="view-savings" style="display:none;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
             <div>
@@ -382,11 +586,148 @@
           <div id="savings-cards-container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:18px;"></div>
         </section>
 
-        <!-- ==================== VISTA 6: REPORTES Y ANALÍTICA ==================== -->
+        <!-- ==================== VISTA 8: SIMULADOR "¿PUEDO PERMITÍRMELO?" ==================== -->
+        <section class="view-section" id="view-simulator" style="display:none;">
+          <div style="margin-bottom:20px;">
+            <span class="badge-3d badge-3d--accent">Asesor Inteligente de Compras</span>
+            <h1 style="margin:4px 0 0; font-family:var(--font-head); font-size:1.9rem;">¿Puedo Permitírmelo?</h1>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)); gap:22px; align-items:start;">
+            <!-- Formulario de Simulación -->
+            <div class="card-3d">
+              <h3 style="margin:0 0 8px; font-family:var(--font-head); font-size:1.25rem;">Consultar Compra</h3>
+              <p style="margin:0 0 18px; color:var(--muted); font-size:0.85rem;">
+                Ingresa lo que deseas comprar. Analizaremos tu saldo disponible, compromisos presupuestales y metas activas para darte una recomendación objetiva.
+              </p>
+
+              <form onsubmit="App.runSimulator(event)">
+                <div style="margin-bottom:14px;">
+                  <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">¿Qué deseas comprar?</label>
+                  <input type="text" id="sim-item-name" class="input-3d" placeholder="Ej: PlayStation 5, Nuevo celular, Curso online..." required>
+                </div>
+
+                <div style="margin-bottom:14px;">
+                  <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Precio en Pesos Colombianos (COP)</label>
+                  <input type="number" id="sim-amount" class="input-3d" placeholder="Ej: 1500000" min="1" step="any" required>
+                </div>
+
+                <div style="margin-bottom:20px;">
+                  <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Categoría estimada</label>
+                  <select id="sim-category" class="select-3d"></select>
+                </div>
+
+                <button type="submit" class="btn-3d" style="width:100%; min-height:46px;">Evaluar Impacto Financiero</button>
+              </form>
+            </div>
+
+            <!-- Tarjeta de Resultados 3D -->
+            <div id="sim-result-container">
+              <div class="card-3d" style="text-align:center; padding:48px 24px; color:var(--muted);">
+                <svg width="48" height="48" style="color:var(--accent); margin-bottom:12px;"><use href="#i-simulator"/></svg>
+                <h4 style="margin:0 0 6px; color:var(--fg);">Listo para calcular</h4>
+                <p style="margin:0; font-size:0.85rem;">Ingresa el artículo y monto para obtener el dictamen financiero en tiempo real.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== VISTA 9: RETOS Y MEDALLAS (GAMIFICACIÓN) ==================== -->
+        <section class="view-section" id="view-achievements" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+            <div>
+              <span class="badge-3d badge-3d--accent">Gamificación & Hábitos</span>
+              <h1 style="margin:4px 0 0; font-family:var(--font-head); font-size:1.9rem;">Retos & Medallas</h1>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-weight:700; font-size:0.85rem;">Progreso Total:</span>
+              <span id="achievements-progress-pill" class="badge-3d badge-3d--accent">0/7 Medallas</span>
+            </div>
+          </div>
+
+          <!-- Grid de Medallas 3D -->
+          <div style="margin-bottom:30px;">
+            <h3 style="margin:0 0 14px; font-family:var(--font-head); font-size:1.25rem;">Tus Medallas Financieras</h3>
+            <div id="achievements-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:16px;">
+              <!-- Renderizado dinámico de medallas -->
+            </div>
+          </div>
+
+          <!-- Reto de Ahorro Progresivo de los 30 Días -->
+          <div class="card-3d">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+              <div>
+                <span class="badge-3d badge-3d--success" style="font-size:0.68rem;">Reto Interactivo</span>
+                <h3 style="margin:4px 0 2px; font-family:var(--font-head); font-size:1.3rem;">Reto de Ahorro Progresivo (30 Días)</h3>
+                <p style="margin:0; font-size:0.85rem; color:var(--muted);">
+                  Ahorra $ 1.000 el día 1, $ 2.000 el día 2... hasta $ 30.000 el día 30. ¡Acumularás <strong>$ 465.000 COP</strong>!
+                </p>
+              </div>
+              <div style="text-align:right;">
+                <span id="challenge-saved-total" style="font-family:var(--font-head); font-size:1.5rem; font-weight:800; color:var(--success);">$ 0 COP</span>
+                <small style="display:block; color:var(--muted); font-size:0.75rem;">Meta: $ 465.000 COP</small>
+              </div>
+            </div>
+
+            <!-- Selector de meta destino -->
+            <div style="margin-bottom:16px; background:var(--surface-2); padding:10px 14px; border-radius:12px; border:1px solid var(--border); display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+              <label style="font-size:0.8rem; font-weight:700;">Abonar ahorros del reto a:</label>
+              <select id="challenge-target-goal" class="select-3d" style="max-width:280px;">
+                <option value="">Ahorro general (solo marcar día)</option>
+              </select>
+            </div>
+
+            <!-- Tablero de los 30 días -->
+            <div id="challenge-tiles-grid" class="challenge-grid-30">
+              <!-- Generado dinámicamente -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== VISTA 10: REPORTES Y SALUD FINANCIERA ==================== -->
         <section class="view-section" id="view-reports" style="display:none;">
           <div style="margin-bottom:24px;">
             <span class="badge-3d badge-3d--accent">Inteligencia y Estadísticas</span>
-            <h1 style="margin:6px 0 0; font-family:var(--font-head); font-size:2rem;">Reportes Analíticos</h1>
+            <h1 style="margin:6px 0 0; font-family:var(--font-head); font-size:2rem;">Reportes y Salud Financiera</h1>
+          </div>
+
+          <!-- Diagnóstico de Salud Financiera Detallado -->
+          <div class="card-3d" style="margin-bottom:28px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+              <div>
+                <span class="badge-3d badge-3d--accent" style="font-size:0.7rem;">Índice General</span>
+                <h3 style="margin:4px 0 0; font-family:var(--font-head); font-size:1.4rem;">Diagnóstico de Salud Financiera (Score 1 a 100)</h3>
+              </div>
+              <span id="report-health-badge" class="badge-3d badge-3d--success" style="font-size:0.85rem; padding:6px 14px;">Excelente</span>
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:24px; align-items:center;">
+              <div class="health-gauge-box">
+                <div class="health-score-circle" id="report-health-circle">
+                  <span id="report-health-score" style="font-family:var(--font-head); font-size:2.8rem; font-weight:800;">--</span>
+                  <small style="font-size:0.75rem; color:var(--muted); font-weight:700;">DE 100 PTS</small>
+                </div>
+                <h4 id="report-health-title" style="margin:8px 0 4px; font-family:var(--font-head);">Finanzas de Hierro</h4>
+                <p id="report-health-desc" style="margin:0; font-size:0.82rem; color:var(--muted); line-height:1.4;">
+                  Tu manejo de excedentes, presupuestos y pasivos es ejemplar.
+                </p>
+              </div>
+
+              <!-- Desglose de Dimensiones -->
+              <div>
+                <h4 style="margin:0 0 12px; font-size:0.95rem;">Desglose de Calificación</h4>
+                <div style="display:flex; flex-direction:column; gap:12px;" id="report-health-breakdown">
+                  <!-- Barras dinámicas -->
+                </div>
+
+                <div style="margin-top:20px; padding-top:14px; border-top:1px solid var(--border);">
+                  <h4 style="margin:0 0 8px; font-size:0.9rem; color:var(--accent-text);">💡 Consejos Personalizados</h4>
+                  <ul id="report-health-tips" style="margin:0; padding-left:18px; font-size:0.82rem; color:var(--muted); line-height:1.6;">
+                    <!-- Consejos dinámicos -->
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Stats Grid: Media y Mediana -->
@@ -421,16 +762,18 @@
           </div>
         </section>
 
-        <!-- ==================== VISTA 7: GRUPO FAMILIAR ==================== -->
+        <!-- ==================== VISTA 11: GRUPO FAMILIAR ==================== -->
         <section class="view-section" id="view-family" style="display:none;">
           <div style="margin-bottom:20px;">
             <span class="badge-3d badge-3d--accent">Finanzas Colaborativas</span>
             <h1 style="margin:4px 0 0; font-family:var(--font-head); font-size:1.9rem;">Grupo Familiar</h1>
           </div>
-          <div id="family-container"></div>
+          <div id="family-container">
+            <!-- Renderizado dinámico: Si no tiene grupo creado, muestra pantalla con botón "+ Crear Grupo Familiar" -->
+          </div>
         </section>
 
-        <!-- ==================== VISTA 8: PERFIL ==================== -->
+        <!-- ==================== VISTA 12: PERFIL ==================== -->
         <section class="view-section" id="view-profile" style="display:none;">
           <div style="margin-bottom:20px;">
             <span class="badge-3d badge-3d--accent">Cuenta y Seguridad</span>
@@ -443,7 +786,7 @@
                 <h3 style="margin:0;">Información del Usuario</h3>
                 <small style="color:var(--muted);">Tus datos de acceso y privilegios</small>
               </div>
-              <span id="profile-role-badge" class="badge-3d badge-3d--accent">ADMIN</span>
+              <span id="profile-role-badge" class="badge-3d badge-3d--accent">Usuario</span>
             </div>
 
             <div style="margin-bottom:14px;">
@@ -473,18 +816,42 @@
   </div>
 
   <!-- ======================================================================
-       DRAWER LATERAL: ESTILOS 3D & ACCESIBILIDAD (12 TEMAS · 4 MODOS)
+       DRAWER LATERAL: ESTILOS 3D & ACCESIBILIDAD
        ====================================================================== -->
   <aside class="control-panel-drawer" id="control-panel-drawer">
     <div style="padding:18px 22px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
       <div>
         <h3 style="margin:0; font-family:var(--font-head); font-size:1.15rem;">Estilos y Accesibilidad</h3>
-        <small style="color:var(--muted); font-size:0.75rem;">12 Temas · 4 Modos · Daltonismo</small>
+        <small style="color:var(--muted); font-size:0.75rem;">12 Temas · Modos · Daltonismo · Fuente</small>
       </div>
       <button id="control-panel-close" class="btn-3d btn-3d--secondary btn-3d--sm">×</button>
     </div>
 
     <div style="padding:22px; overflow-y:auto; flex:1;">
+      <!-- Accesibilidad de Texto (Tamaño Dinámico A- / A+) -->
+      <div style="margin-bottom:24px; background:var(--surface-2); padding:14px; border-radius:14px; border:1px solid var(--border);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <label style="font-weight:700; font-size:0.82rem;">Tamaño de Letra</label>
+          <span id="a11y-font-scale-label" class="badge-3d badge-3d--accent" style="font-size:0.75rem;">100%</span>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-3d btn-3d--secondary btn-3d--sm" style="flex:1; font-weight:800;" onclick="ThemeEngine.changeFontScale(-1)">A -</button>
+          <button class="btn-3d btn-3d--secondary btn-3d--sm" style="flex:1;" onclick="ThemeEngine.applyFontScale(100)">100%</button>
+          <button class="btn-3d btn-3d--secondary btn-3d--sm" style="flex:1; font-weight:800;" onclick="ThemeEngine.changeFontScale(1)">A +</button>
+        </div>
+      </div>
+
+      <!-- Efectos de Sonido Hápticos -->
+      <div style="margin-bottom:24px; background:var(--surface-2); padding:14px; border-radius:14px; border:1px solid var(--border);">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <label style="display:block; font-weight:700; font-size:0.82rem;">Sonidos Hápticos</label>
+            <small style="color:var(--muted); font-size:0.72rem;">Efecto de moneda al registrar o abonar</small>
+          </div>
+          <input type="checkbox" id="a11y-sound-toggle" style="width:20px; height:20px; accent-color:var(--accent); cursor:pointer;" checked onchange="ThemeEngine.toggleSound(this.checked)">
+        </div>
+      </div>
+
       <!-- Modos de Color -->
       <div style="margin-bottom:24px;">
         <label style="display:block; font-weight:700; font-size:0.82rem; margin-bottom:8px;">Modo de Visualización</label>
@@ -527,12 +894,24 @@
       </div>
 
       <!-- Opciones Extra de Accesibilidad -->
-      <div>
+      <div style="margin-bottom:24px;">
         <label style="display:block; font-weight:700; font-size:0.82rem; margin-bottom:8px;">Opciones Extra</label>
         <div style="display:flex; flex-direction:column; gap:8px;">
           <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="const p = ThemeEngine.getPreferences(); p.highFocus = !p.highFocus; ThemeEngine.applyA11yFlags(p); ThemeEngine.savePreferences(p);">Foco Resaltado</button>
           <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="const p = ThemeEngine.getPreferences(); p.reduceMotion = !p.reduceMotion; ThemeEngine.applyA11yFlags(p); ThemeEngine.savePreferences(p);">Reducir Movimiento</button>
           <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="const p = ThemeEngine.getPreferences(); p.underlineLinks = !p.underlineLinks; ThemeEngine.applyA11yFlags(p); ThemeEngine.savePreferences(p);">Subrayar Enlaces</button>
+        </div>
+      </div>
+
+      <!-- Atajos Rápidos de Teclado -->
+      <div>
+        <label style="display:block; font-weight:700; font-size:0.82rem; margin-bottom:8px;">Atajos de Teclado</label>
+        <div style="display:flex; flex-direction:column; gap:6px; font-size:0.8rem; color:var(--muted);">
+          <div style="display:flex; justify-content:space-between;"><span class="kbd-pill">Ctrl + I</span> <span>Nuevo Ingreso</span></div>
+          <div style="display:flex; justify-content:space-between;"><span class="kbd-pill">Ctrl + G</span> <span>Nuevo Gasto</span></div>
+          <div style="display:flex; justify-content:space-between;"><span class="kbd-pill">Ctrl + K</span> <span>Buscar Global</span></div>
+          <div style="display:flex; justify-content:space-between;"><span class="kbd-pill">Ctrl + P</span> <span>Simulador de Compra</span></div>
+          <div style="display:flex; justify-content:space-between;"><span class="kbd-pill">Esc</span> <span>Cerrar Modales</span></div>
         </div>
       </div>
     </div>
@@ -668,6 +1047,231 @@
     </div>
   </div>
 
+  <!-- Modal Préstamo (Me Deben / Debo) -->
+  <div class="modal-backdrop" id="modal-loan" style="display:none;">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="modal-loan-title">Registrar Préstamo o Deuda</h3>
+        <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="App.closeAllModals()">×</button>
+      </div>
+      <form onsubmit="App.saveLoanForm(event)">
+        <div class="modal-body">
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Tipo de Registro</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <button type="button" id="loan-type-me-deben" class="btn-3d btn-3d--sm is-active-tab" onclick="App.selectLoanFormType('me_deben')">🤝 Me Deben (Presté)</button>
+              <button type="button" id="loan-type-debo" class="btn-3d btn-3d--secondary btn-3d--sm" onclick="App.selectLoanFormType('debo')">💳 Debo (Me Prestaron)</button>
+            </div>
+            <input type="hidden" id="loan-type-val" value="me_deben">
+          </div>
+
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Nombre de la Persona / Entidad</label>
+            <input type="text" id="loan-person" class="input-3d" placeholder="Ej: Carlos Gómez" required>
+          </div>
+
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Monto Total en Pesos Colombianos (COP)</label>
+            <input type="number" id="loan-amount" class="input-3d" placeholder="Ej: 300000" min="1" step="any" required>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;">
+            <div>
+              <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Fecha del Préstamo</label>
+              <input type="date" id="loan-start-date" class="input-3d" required>
+            </div>
+            <div>
+              <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Fecha Pactada de Pago</label>
+              <input type="date" id="loan-due-date" class="input-3d">
+            </div>
+          </div>
+
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Notas o Motivo</label>
+            <input type="text" id="loan-notes" class="input-3d" placeholder="Ej: Préstamo para repuesto de moto">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-3d btn-3d--secondary" onclick="App.closeAllModals()">Cancelar</button>
+          <button type="submit" class="btn-3d">Guardar Registro</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Abono a Préstamo -->
+  <div class="modal-backdrop" id="modal-loan-payment" style="display:none;">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="modal-payment-title">Registrar Abono</h3>
+        <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="App.closeAllModals()">×</button>
+      </div>
+      <form onsubmit="App.saveLoanPaymentForm(event)">
+        <input type="hidden" id="loan-payment-loan-id">
+        <div class="modal-body">
+          <p style="margin:0 0 14px; font-size:0.85rem; color:var(--muted);">
+            Persona: <strong id="loan-payment-person" style="color:var(--fg);"></strong> · Saldo pendiente: <strong id="loan-payment-pending" style="color:var(--accent);"></strong>
+          </p>
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Monto del Abono (COP)</label>
+            <input type="number" id="loan-payment-amount" class="input-3d" placeholder="Ej: 50000" min="1" step="any" required>
+          </div>
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Fecha del Abono</label>
+            <input type="date" id="loan-payment-date" class="input-3d" required>
+          </div>
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Nota o Referencia</label>
+            <input type="text" id="loan-payment-note" class="input-3d" placeholder="Ej: Transferencia Nequi">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-3d btn-3d--secondary" onclick="App.closeAllModals()">Cancelar</button>
+          <button type="submit" class="btn-3d">Registrar Abono</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Crear Categoría Personalizada -->
+  <div class="modal-backdrop" id="modal-category" style="display:none;">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Nueva Categoría Personalizada</h3>
+        <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="App.closeAllModals()">×</button>
+      </div>
+      <form onsubmit="App.saveCustomCategoryForm(event)">
+        <div class="modal-body">
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Nombre de la Categoría</label>
+            <input type="text" id="cat-custom-name" class="input-3d" placeholder="Ej: Mascotas, Gimnasio, Cursos..." required>
+          </div>
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Tipo de Movimiento</label>
+            <select id="cat-custom-type" class="select-3d" required>
+              <option value="gasto">Gasto (Salida de dinero)</option>
+              <option value="ingreso">Ingreso (Entrada de dinero)</option>
+            </select>
+          </div>
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Color 3D</label>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <input type="color" id="cat-custom-color" value="#6C5CE7" style="width:48px; height:40px; border:none; background:none; cursor:pointer;">
+              <span style="font-size:0.8rem; color:var(--muted);">Elige el color distintivo de esta categoría</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-3d btn-3d--secondary" onclick="App.closeAllModals()">Cancelar</button>
+          <button type="submit" class="btn-3d">Crear Categoría</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Crear Grupo Familiar -->
+  <div class="modal-backdrop" id="modal-family-create" style="display:none;">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Crear Grupo Familiar</h3>
+        <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="App.closeAllModals()">×</button>
+      </div>
+      <form onsubmit="App.saveCreateFamilyForm(event)">
+        <div class="modal-body">
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Nombre de tu Grupo Familiar</label>
+            <input type="text" id="family-group-name-input" class="input-3d" placeholder="Ej: Familia Pérez, Hogar Karen & Juan..." required>
+            <small style="display:block; margin-top:6px; color:var(--muted); font-size:0.75rem;">
+              Tú serás el titular del grupo y podrás agregar a tus familiares a continuación.
+            </small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-3d btn-3d--secondary" onclick="App.closeAllModals()">Cancelar</button>
+          <button type="submit" class="btn-3d">Crear Grupo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Añadir Miembro Familiar -->
+  <div class="modal-backdrop" id="modal-family-member" style="display:none;">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Añadir Miembro al Grupo Familiar</h3>
+        <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="App.closeAllModals()">×</button>
+      </div>
+      <form onsubmit="App.saveFamilyMemberForm(event)">
+        <div class="modal-body">
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Nombre Completo del Miembro</label>
+            <input type="text" id="fam-member-name" class="input-3d" placeholder="Ej: Andrés Suárez" required>
+          </div>
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Parentesco / Relación</label>
+            <select id="fam-member-relation" class="select-3d" required>
+              <option value="">Seleccione parentesco...</option>
+              <option value="Esposo / Esposa">Esposo / Esposa</option>
+              <option value="Pareja">Pareja</option>
+              <option value="Hijo / Hija">Hijo / Hija</option>
+              <option value="Padre / Madre">Padre / Madre</option>
+              <option value="Hermano / Hermana">Hermano / Hermana</option>
+              <option value="Abuelo / Abuela">Abuelo / Abuela</option>
+              <option value="Familiar">Otro Familiar</option>
+              <option value="Roomie / Compañero">Roomie / Compañero de hogar</option>
+            </select>
+          </div>
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:6px;">Notas o Responsabilidad (Opcional)</label>
+            <input type="text" id="fam-member-notes" class="input-3d" placeholder="Ej: Aporta a servicios públicos">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-3d btn-3d--secondary" onclick="App.closeAllModals()">Cancelar</button>
+          <button type="submit" class="btn-3d">Añadir Miembro</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Detalle de Día del Calendario -->
+  <div class="modal-backdrop" id="modal-calendar-day" style="display:none;">
+    <div class="modal-container" style="max-width:540px;">
+      <div class="modal-header">
+        <div>
+          <h3 id="cal-day-modal-title" style="margin:0;">Movimientos del Día</h3>
+          <small id="cal-day-modal-date" style="color:var(--muted); font-size:0.8rem;"></small>
+        </div>
+        <button class="btn-3d btn-3d--secondary btn-3d--sm" onclick="App.closeAllModals()">×</button>
+      </div>
+      <div class="modal-body">
+        <div id="cal-day-tx-list" style="margin-bottom:18px; max-height:260px; overflow-y:auto;">
+          <!-- Lista de transacciones del día -->
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content:space-between;">
+        <button type="button" class="btn-3d btn-3d--secondary" onclick="App.closeAllModals()">Cerrar</button>
+        <button type="button" id="cal-day-add-btn" class="btn-3d">+ Añadir en esta fecha</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Búsqueda Rápida Global (Ctrl + K) -->
+  <div class="quick-search-backdrop" id="modal-quick-search" style="display:none;" onclick="if(event.target === this) App.closeAllModals();">
+    <div class="quick-search-container">
+      <div style="position:relative;">
+        <input type="text" id="quick-search-input" class="quick-search-input" placeholder="Escribe para buscar movimientos, presupuestos, préstamos... (Esc para salir)" oninput="App.handleQuickSearch(this.value)">
+      </div>
+      <div id="quick-search-results" style="max-height:360px; overflow-y:auto;">
+        <!-- Resultados -->
+      </div>
+      <div style="padding:10px 20px; background:var(--surface-2); border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:var(--muted);">
+        <span>Navega con el teclado o haz clic en un resultado</span>
+        <span>Presiona <span class="kbd-pill" style="font-size:0.65rem;">Esc</span> para cerrar</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal Confirmación Destructiva -->
   <div class="modal-backdrop" id="modal-confirm" style="display:none;">
     <div class="modal-container">
@@ -689,8 +1293,8 @@
   <div class="toast-container" id="toast-container"></div>
 
   <!-- Scripts de la Aplicación -->
-  <script src="assets/js/storage.js"></script>
   <script src="assets/js/theme-engine.js"></script>
+  <script src="assets/js/storage.js"></script>
   <script src="assets/js/charts.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
